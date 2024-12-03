@@ -4,11 +4,13 @@ RM      = rm -f
 
 default: all
 
-all: day_01
+all: day_01 day_02 day_03
 
 day_01: day_01.c
 	$(CC) $(CFLAGS) -o day_01 day_01.c
 day_02: day_02.c
 	$(CC) $(CFLAGS) -o day_02 day_02.c
+day_03: day_03.c
+	$(CC) $(CFLAGS) -o day_03 day_03.c
 clean veryclean:
 	$(RM) main
