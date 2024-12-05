@@ -12,5 +12,7 @@ day_02: day_02.c
 	$(CC) $(CFLAGS) -o day_02 day_02.c
 day_03: day_03.c
 	$(CC) $(CFLAGS) -o day_03 day_03.c
+day_04: day_04.c
+	$(CC) $(CFLAGS) -o day_04 day_04.c
 clean veryclean:
 	$(RM) main
