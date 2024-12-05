@@ -1,5 +1,5 @@
 CC      = gcc
-CFLAGS  = -g  -O3 -Wall -Wextra
+CFLAGS  = -g -Wall -Wextra
 RM      = rm -f
 
 default: all
@@ -14,5 +14,7 @@ day_03: day_03.c
 	$(CC) $(CFLAGS) -o day_03 day_03.c
 day_04: day_04.c
 	$(CC) $(CFLAGS) -o day_04 day_04.c
+day_05: day_05.c
+	$(CC) $(CFLAGS) -o day_05 day_05.c
 clean veryclean:
 	$(RM) main
