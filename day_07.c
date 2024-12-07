@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 int solve_1(long *list,size_t size, size_t idx,long current , long r){
+    if(current > r) return 0;
     long add = current + list[idx] ;
     long mul = current * list[idx] ; 
     idx++;
@@ -48,12 +49,13 @@ FILE * fp;
     if (line) free(line);
     printf("%lld\n",cpt);
 }
-
+  char a[50];
+     char b[50];
 int solve_2(long *list,size_t size, size_t idx,long current , long r){
+    if(current > r) return 0;
     long add = current + list[idx] ;
     long mul = current * list[idx] ; 
-    char a[50];
-     char b[50];
+  
      snprintf(a,50,"%ld",current);
      snprintf(b ,50,"%ld",list[idx]);
     strcat(a,b);
