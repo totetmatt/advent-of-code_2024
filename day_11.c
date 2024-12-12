@@ -56,5 +56,6 @@ void part_1() {
 int main() {
 
     part_1(); // 1 and 2 
+
     return 0;
 }
