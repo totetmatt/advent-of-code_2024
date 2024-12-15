@@ -97,59 +97,89 @@ def part_2():
                 print(MAP[(y,x)],end="")
             print()
         
-        def move(el,pos,dir,lol=False):
-            
-            print(el,pos,dir)
-            
-            new = (pos[0]+dir[0],pos[1]+dir[1])
-
-
-            e = MAP[new]
-  
-            if e == "#" :
-                    return None
-            if e == '.' :
-                if el =="[" and abs(dir[0])== 1 and lol:
-                    m = move("]",(pos[0],pos[1]+1),dir,True) 
-                    if not m:
-                        return None      
-            
-                if el =="]" and abs(dir[0])== 1 and lol:
-                    m = move("[",(pos[0],pos[1]-1),dir,True) 
-                    if not m:
-                        return None 
-                MAP[pos] = "."
-                MAP[new]= el
-
-
-                if el == "@":
-                    ROBOT = new
-                return new
-            if e in ['[',']']:
-                
-
-                if move(e,new,dir):
-                    if abs(dir[0])==1:
-                        if e == "[":
-                            extra = (new[0],new[1]+1)
-                            extra= move("]",extra,dir)
-                        else:
-                            extra = (new[0],new[1]-1)
-                            extra= move("[",extra,dir)
+        """def move(pos,dir):
+        
+            current = MAP[pos]
+            n_pos = (pos[0]+dir[0],pos[1]+dir[1])
+            if current == ".":
+                return [pos]
+            if current == "#":
+                return []
+            if dir[0]==0 and current in ['[',']']: # X moves, nothing particular
+                return move(n_pos,dir) + [pos]
+            if dir[1]==0 and current in ['[',']']: # Y move, problem
+                if current == "[":
+                    c1 = move(n_pos,dir)  + [pos]
+                    if type(c1[0]) == list:
+                        c1[1] = c1[1]+ [pos]
+                    else :
+                        c1 += [pos]
+                    c2 = move((n_pos[0],n_pos[1]+1),dir) + [(pos[0],pos[1]+1)]
+                if current == "]":
+                    c1 = move(n_pos,dir)
                     
-                    MAP[pos] = "."
-                    MAP[new]= el
-                    if el == "@":
-                        ROBOT = new
-                    return new 
+                    if type(c1[0]) == list:
+                        c1[1] = c1[1]+ [pos]
+                    else :
+                        c1 += [pos]
+                    c2 = move((n_pos[0],n_pos[1]-1),dir) + [(pos[0],pos[1]-1)]
+                    
+                if c1 and c2:
+                    return  [c2] + [c1] 
                 else :
-                    return None  
-        for dir in path[:7]:
+                    return []
+            if current == "@" and dir[0]==0:
+                moves = move(n_pos,dir) 
+                print(moves)
+                if moves:
+                    moves = moves +[pos]
+                    for m in range(0,len(moves)-1):
+                        MAP[moves[m]] = MAP[moves[m+1]]
+                    MAP[pos] =  "."
+                    return n_pos
+            if current == "@" and dir[1]==0:
+                moves = move(n_pos,dir) 
+       
+                print(moves)
+                if moves:
+                    moves = moves +[pos]
+                    for m in range(0,len(moves)-1):
+                        MAP[moves[m]] = MAP[moves[m+1]]
+                       
+                    MAP[pos] =  "."
+                    return n_pos
+        """
+           
+        def move(pos,dir,l=[]):
+   
+            current = MAP[pos]
+            n_pos = (pos[0]+dir[0],pos[1]+dir[1])
+            next = MAP[n_pos]
+            print(pos,current,dir)
+            if next in ["[","]"] and dir[0]==0:
+                return move(n_pos,dir,[ [pos,n_pos] ] + l)
+            if next in ["[","]"] and dir[1]==0:
+                if next == "]":
+                    return  move(n_pos,dir,[ [pos,n_pos] ]+ l)  +  move( (n_pos[0],n_pos[1]-1),dir,[ ]) 
+                if next == "[":
+                    return  move(n_pos,dir,[ [pos,n_pos] ]+ l)  +  move( (n_pos[0],n_pos[1]+1),dir,[ ]) +l    
+            if next  == ".":
+                return [[pos,n_pos]] +l 
+
+
+                
+                
+        for dir in path[:6]:
             # print(en,dir)
             dir = DIR[dir]
             # print(dir)
-            if r:=move("@",ROBOT,dir) :
-                ROBOT = r
+            m =  move(ROBOT,dir)
+            print(m)
+            for p,np in  m:
+                MAP[np]=MAP[p]
+            last_p,last_np = m[-1]
+            ROBOT = last_np
+            MAP[last_p] = "."
             for y in range(0,height):
                 for x in range(0,width):
                     print(MAP[(y,x)],end="")
