@@ -155,38 +155,54 @@ def part_2():
             current = MAP[pos]
             n_pos = (pos[0]+dir[0],pos[1]+dir[1])
             next = MAP[n_pos]
-            print(pos,current,dir)
+            print("::::::>>",pos,current,dir)
             if next in ["[","]"] and dir[0]==0:
                 return move(n_pos,dir,[ [pos,n_pos] ] + l)
             if next in ["[","]"] and dir[1]==0:
                 if next == "]":
-                    return  move(n_pos,dir,[ [pos,n_pos] ]+ l)  +  move( (n_pos[0],n_pos[1]-1),dir,[ ]) 
+                    m1 = move(n_pos,dir,[ [pos,n_pos] ] + l)  
+                    m2 = move( (n_pos[0],n_pos[1]-1),dir,[ ])
+
+                    print(">>",m1,m2)
+                    if m1 and m2:
+                        return m1 + m2
+  
                 if next == "[":
-                    return  move(n_pos,dir,[ [pos,n_pos] ]+ l)  +  move( (n_pos[0],n_pos[1]+1),dir,[ ]) +l    
+                    m1 = move(n_pos,dir,[ [pos,n_pos] ] +l)  
+                    m2 = move( (n_pos[0],n_pos[1]+1),dir,[ ])
+                    print(">>",m1,m2)
+                    if m1 and m2 :
+                        return m1+ m2  
+                return []  
             if next  == ".":
+                
                 return [[pos,n_pos]] +l 
 
+            if next =="#":
+                return []
+
 
                 
                 
-        for dir in path[:6]:
+        for sq,dir in enumerate(path[:22]):
             # print(en,dir)
             dir = DIR[dir]
             # print(dir)
             m =  move(ROBOT,dir)
+            print(f"sq={sq}")
             print(m)
+
             for p,np in  m:
-                MAP[np]=MAP[p]
-            last_p,last_np = m[-1]
-            ROBOT = last_np
-            MAP[last_p] = "."
+                MAP[np],MAP[p]=MAP[p],MAP[np]
+
+            ROBOT = [(y,x) for ((y,x),c) in MAP.items() if c=="@"][0]
             for y in range(0,height):
                 for x in range(0,width):
                     print(MAP[(y,x)],end="")
                 print()
             cpt = 0
     for ((y,x),c) in MAP.items():
-        if c == "O":
+        if c == "[":
             cpt += y*100+x
     print(cpt)            
 part_1()
