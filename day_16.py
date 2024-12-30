@@ -17,10 +17,11 @@ def part_1():
     while END not in DIST:
         current_coord,current_dist = [ (c,v) for (c,v) in sorted(DIST.items(),key=lambda a:a[1]) if c not in visited][0]
         
-        next = [coord for coord,val in MAP.items() if val !="#" 
+        next = sorted([coord for coord,val in MAP.items() if val !="#" 
                 and (( (current_coord[0]+1 == coord[0] or  current_coord[0]-1 == coord[0]) and current_coord[1] == coord[1])
                 or ( (current_coord[1]+1 == coord[1] or  current_coord[1]-1 == coord[1]) and current_coord[0] == coord[0]))
-                ]
+                ])
+        
         for n in next:
             d=DIST.get(n,10000000)
             prev = GRAPH.get(current_coord)
